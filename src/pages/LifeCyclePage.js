@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 export default class LifeCyclePage extends Component {
 	// static defaultProps = {
@@ -14,10 +14,15 @@ export default class LifeCyclePage extends Component {
 		this.state = { count: 0 };
 		console.log('constructor');
 	}
-	// 17废除，暂时可用
-	componentWillMount() {
-		console.log('componentWillMount');
+	static getDerivedStateFromProps(props, state) {
+		console.log('getDerivedStateFromProps');
+		const { count } = state;
+		return count > 5 ? { count: 0 } : null;
 	}
+	// // 17废除，暂时可用
+	// UNSAFE_componentWillMount() {
+	// 	console.log('componentWillMount');
+	// }
 	componentDidMount() {
 		console.log('componentDidMount');
 	}
@@ -26,12 +31,18 @@ export default class LifeCyclePage extends Component {
 		console.log('shouldComponentUpdate', nextState, this.state);
 		return count !== 3;
 	}
-	// 17废除，暂时可用
-	componentWillUpdate() {
-		console.log('componentWillUpdate');
+	// // 17废除，暂时可用
+	// UNSAFE_componentWillUpdate() {
+	// 	console.log('componentWillUpdate');
+	// }
+	getSnapshotBeforeUpdate(prevProps, prevState) {
+		console.log('getSnapshotBeforeUpdate', prevProps, prevState);
+		return {
+			msg: 'getSnapshotBeforeUpdate',
+		};
 	}
-	componentDidUpdate(prevProps, prevState) {
-		console.log('componentDidUpdate');
+	componentDidUpdate(prevProps, prevState, snapShot) {
+		console.log('componentDidUpdate', prevProps, prevState, snapShot);
 	}
 	setCount = () => {
 		this.setState({
@@ -57,11 +68,11 @@ class Chlid extends Component {
 	componentWillUnmount() {
 		console.log('componentWillUnmount');
 	}
-	// 17废除，暂时可用
-	// 初次渲染时不会执行，只有在已挂载的组件接受新的 props 时，才执行
-	componentWillReceiveProps(nestProps) {
-		console.log('componentWillReceiveProps', nestProps);
-	}
+	// // 17废除，暂时可用
+	// // 初次渲染时不会执行，只有在已挂载的组件接受新的 props 时，才执行
+	// UNSAFE_componentWillReceiveProps(nestProps) {
+	// 	console.log('componentWillReceiveProps', nestProps);
+	// }
 	render() {
 		console.log('Child render');
 		const { count } = this.props;
